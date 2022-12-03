@@ -1,0 +1,8 @@
+# Genreated files
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+
+# Temp lock file
+/.hugo_build.lock
