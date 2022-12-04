@@ -1,7 +1,9 @@
 +++
 title = 'About'
 date  = '2022-12-04T13:30:49-05:00'
-draft = true
+showDate = false
+showReadingTime = false
+showAuthor = false
 +++
 
 {{< lead >}}More than you'd ever want to know{{</ lead >}}
