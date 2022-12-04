@@ -6,6 +6,8 @@ showReadingTime = false
 showAuthor = false
 +++
 
+### About Me
+
 {{< lead >}}More than you'd ever want to know{{</ lead >}}
 
 Hi! I'm Eir, or Erik. I'm a developer and software engineer currently located in Upstate New York. I hold a B.S. in
@@ -23,3 +25,17 @@ I'm an avid [curler](https://en.wikipedia.org/wiki/Curling), having grown up nea
 sport on OTA channels out of Kingston. My other hobbies include gaming, books and movies (primarily SFF), music, and
 tinkering with various computers and electronics. I'm planning to include lists of books and movies that I like on here,
 and music I listen to can already be found at [last.fm](https://last.fm/user/eirrw).
+
+### About the Site
+
+{{< lead >}}What is it good for?{{</ lead >}}
+
+Currently my intentions for the site are _unclear_, but there's a few things I'm interested in
+building. Ideas include occasional blogs about tech + media (that I used to put on twitter {{< icon "skull-crossbones"
+>}}), migrating the text files and spreadsheets that I use to track movies I watch and books I read, and just a general
+playground for fun things.
+
+I still have to decide how professional I want to keep the site; if I use it as a personal site that potential (or
+current) employers can see, the content may change. "Keeping it real" is a goal though, particularly with the former
+twitter blogs (or rants, really). I didn't hold a lot back.
+
