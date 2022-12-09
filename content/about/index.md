@@ -4,6 +4,7 @@ date  = '2022-12-04T13:30:49-05:00'
 showDate = false
 showReadingTime = false
 showAuthor = false
+showPagination = false
 +++
 
 ### About Me
