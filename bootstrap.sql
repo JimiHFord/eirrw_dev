@@ -54,3 +54,17 @@ CREATE TABLE seriesBook (
     FOREIGN KEY (`seriesId`) REFERENCES series(`seriesId`),
     FOREIGN KEY (`bookId`) REFERENCES book(`bookId`)
 );
+
+
+-- TEST DATA
+INSERT INTO
+    author (authorId, lastName, firstName)
+    VALUES (1, 'wilson', 'erik');
+
+INSERT INTO
+    book (bookId, title, releaseDate, addedDate, readDate)
+    VALUES (1, 'this is a book', '2022-12-08', '2022-12-09', '2022-12-09');
+
+INSERT INTO
+    authorBook (authorId, bookId)
+    VALUES (1, 1);
