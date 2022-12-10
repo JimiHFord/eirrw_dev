@@ -24,8 +24,8 @@ choice, unless I need a fully-featured IDE, in which case I'll generally reach f
 
 I'm an avid [curler](https://en.wikipedia.org/wiki/Curling), having grown up near the Canadian border watching the 
 sport on OTA channels out of Kingston. My other hobbies include gaming, books and movies (primarily SFF), music, and
-tinkering with various computers and electronics. I'm planning to include lists of books and movies that I like on here,
-and music I listen to can already be found at [last.fm](https://last.fm/user/eirrw).
+tinkering with various computers and electronics. I'm planning to include lists of [books](/books) and movies that I
+like on here, and music I listen to can already be found at [last.fm](https://last.fm/user/eirrw).
 
 ### About the Site
 
