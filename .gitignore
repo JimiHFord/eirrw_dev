@@ -6,3 +6,7 @@ hugo_stats.json
 
 # Temp lock file
 /.hugo_build.lock
+
+# cloudflare wrangler
+/.wrangler/
+/wrangler.toml
