@@ -1,70 +1,62 @@
+-- drop existing tables in consistent order (prevent foreign key failures)
+DROP TABLE IF EXISTS session;
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS authorBook;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS author;
+DROP TABLE IF EXISTS seriesBook;
+DROP TABLE IF EXISTS series;
+
+
+-- create new tables
 CREATE TABLE user (
-    userId INTEGER PRIMARY KEY,
-    username TEXT,
-    password TEXT
+    userId INTEGER PRIMARY KEY NOT NULL,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS session;
 CREATE TABLE session (
-    userId INT,
-    sessionId TEXT,
+    userId INT NOT NULL,
+    sessionId TEXT NOT NULL,
     expires INT,
     PRIMARY KEY (`userId`, `sessionId`),
     FOREIGN KEY (`userId`) REFERENCES user(`userId`)
 );
 
-DROP TABLE IF EXISTS book;
 CREATE TABLE book (
     bookId INTEGER PRIMARY KEY,
-    title TEXT,
+    title TEXT NOT NULL,
     releaseDate TEXT,
-    addedDate TEXT,
-    readDate TEXT
+    addedDate TEXT DEFAULT CURRENT_DATE,
+    readDate TEXT,
+    recommend BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-DROP TABLE IF EXISTS author;
 CREATE TABLE author (
     authorId INTEGER PRIMARY KEY,
     lastName TEXT,
     firstName TEXT
 );
 
-DROP TABLE IF EXISTS authorBook;
 create TABLE authorBook (
-    authorId INT,
-    bookId INT,
+    authorId INT NOT NULL,
+    bookId INT NOT NULL,
     PRIMARY KEY (`authorId`, `bookId`),
     FOREIGN KEY (`authorId`) REFERENCES author(`authorId`),
     FOREIGN KEY (`bookId`) REFERENCES book(`bookId`)
 );
 
-DROP TABLE IF EXISTS series;
 CREATE TABLE series (
     seriesId INTEGER PRIMARY KEY,
-    name TEXT
+    name TEXT NOT NULL,
+    recommend BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-DROP TABLE IF EXISTS seriesBook;
 CREATE TABLE seriesBook (
-    seriesId INT,
-    bookId INT,
+    seriesId INT NOT NULL,
+    bookId INT NOT NULL,
     entry INT,
     PRIMARY KEY (`seriesId`, `bookId`),
     FOREIGN KEY (`seriesId`) REFERENCES series(`seriesId`),
     FOREIGN KEY (`bookId`) REFERENCES book(`bookId`)
 );
-
-
--- TEST DATA
-INSERT INTO
-    author (authorId, lastName, firstName)
-    VALUES (1, 'wilson', 'erik');
-
-INSERT INTO
-    book (bookId, title, releaseDate, addedDate, readDate)
-    VALUES (1, 'this is a book', '2022-12-08', '2022-12-09', '2022-12-09');
-
-INSERT INTO
-    authorBook (authorId, bookId)
-    VALUES (1, 1);
