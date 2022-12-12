@@ -26,7 +26,5 @@ export async function onRequestGet(context) {
 
     const data = await ps.all();
 
-    console.log(data);
-
     return Response.json(data ?? {});
 }
