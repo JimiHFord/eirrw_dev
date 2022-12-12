@@ -31,6 +31,9 @@ $(document).ready( function () {
         info: false,
         order: [[6, 'desc'], [5, 'desc']],
         orderFixed: [6, 'desc'],
-        scrollX: false
+        scrollX: false,
+        fixedHeader: true,
+        responsive: true,
+        autoWidth: false
     } );
 } );
