@@ -7,6 +7,7 @@ export async function onRequestGet(context) {
             b.releaseDate as release,
             b.addedDate as added,
             b.readDate as read,
+            CASE WHEN b.readDate IS NULL THEN 0 ELSE 1 END as isRead,
             s.name as series,
             sb.entry as seriesEntry,
             b.recommend as recommendBook,

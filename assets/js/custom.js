@@ -14,6 +14,7 @@ $(document).ready( function () {
             { data: 'release' },
             { data: 'added' },
             { data: 'read', orderData: [ 5, 4, 1 ] },
+            { data: 'isRead', visible: false },
             { 
                 data: 'series',
                 render: (data, _, row) => 
@@ -23,12 +24,13 @@ $(document).ready( function () {
             },
         ],
         rowGroup: {
-            dataSrc: row => row.read == null ? "TBR" : "Read"
+            dataSrc: row => row.isRead ? "Read" : "TBR"
         },
         paging: false,
         searching: false,
         info: false,
-        order: [ 5, 'desc' ],
+        order: [[6, 'desc'], [5, 'desc']],
+        orderFixed: [6, 'desc'],
         scrollX: false
     } );
 } );
