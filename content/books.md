@@ -3,6 +3,11 @@ title = 'Books'
 date  = '2022-12-08T12:16:30-05:00'
 draft = true
 layout = 'books'
+
+showDate = false
+showReadingTime = false
+showAuthor = false
+showPagination = false
 +++
 
 {{< lead >}} I read occasionally {{< /lead >}}
