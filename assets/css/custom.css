@@ -1,3 +1,3 @@
-.dark .dtrg-group th {
-  background-color: rgb(var(--color-neutral-700)) !important;
+.dark table.dataTable tr.dtrg-group th {
+  background-color: rgb(var(--color-neutral-700));
 }
