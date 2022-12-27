@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "better-sqlite3": "^7.6.2",
+    "wrangler": "^2.6.2"
+  },
+  "scripts": {
+    "build": "hugo",
+    "build-dev": "hugo -D",
+    "bootstrap-dev": "wrangler d1 execute D1_EIRRW --local --file bootstrap.sql",
+    "dev": "wrangler pages dev --d1 D1_EIRRW --persist --local -- hugo server -D"
+  }
+}
