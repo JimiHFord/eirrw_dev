@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20221111.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/datatables.net": "^1.10.24",
     "@types/datatables.net-fixedheader": "^3.1.5",

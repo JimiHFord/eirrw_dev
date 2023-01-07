@@ -1,4 +1,4 @@
-export async function onRequest(context) {
+export const onRequest: PagesFunction = async (context) => {
 //    if (context.request.headers.get('x-test') == null) {
 //        return new Response({}, {status: 401});
 //    }

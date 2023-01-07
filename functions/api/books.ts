@@ -1,5 +1,9 @@
-export async function onRequestGet(context) {
-    const ps = context.env.D1_EIRRW.prepare(`
+interface Env {
+    D1_EIRRW: D1Database;
+}
+
+export const onRequestGet: PagesFunction<Env> = async (context) => {
+    const ps: D1PreparedStatement = context.env.D1_EIRRW.prepare(`
         select
             b.title as title,
             a.lastName as authorLast,
@@ -25,7 +29,7 @@ export async function onRequestGet(context) {
     `);
 
 
-    const data = await ps.all();
+    const data: D1Result = await ps.all();
 
     return Response.json(data ?? {});
 }

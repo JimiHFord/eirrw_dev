@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "checkJs": false,
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "functions/**/*",
   ]
 }
