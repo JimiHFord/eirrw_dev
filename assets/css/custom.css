@@ -1,7 +1,0 @@
-div.max-w-prose {
-  max-width: 80ch;
-}
-
-.dark table.dataTable tr.dtrg-group th {
-  background-color: rgb(var(--color-neutral-700));
-}

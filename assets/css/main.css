@@ -1,0 +1,11 @@
+@import "./themes/congo/assets/css/main.css";
+@import "./assets/css/select2.css";
+
+div.max-w-prose {
+  max-width: 80ch;
+}
+
+table.dataTable tr.dtrg-group th {
+    @apply dark:bg-neutral-700
+}
+

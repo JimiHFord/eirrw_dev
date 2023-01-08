@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'jit',
   presets: [
     require('./themes/congo/tailwind.config.js')
   ],
@@ -11,4 +12,5 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms')
   ],
+  darkmode: 'class'
 }

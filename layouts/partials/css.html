@@ -1,0 +1,29 @@
+{{/* Asset bundles */}}
+{{ $assets := newScratch }}
+
+{{ $cssScheme := resources.Get (printf "css/schemes/%s.css" (lower .Site.Params.colorScheme | default "congo")) }}
+{{ if not $cssScheme }}
+  {{ $cssScheme = resources.Get "css/schemes/congo.css" }}
+{{ end }}
+{{ $assets.Add "css" (slice $cssScheme) }}
+
+{{ $cssMain := resources.Get "css/main.css" }}
+{{ $cssOpts := dict "config" "assets/css/postcss.config.js" }}
+{{ if hugo.IsProduction }}
+  {{ $cssOpts = merge $cssOpts (dict "no-map" true) }}
+{{ end }}
+
+{{ $style := $cssMain | resources.PostCSS $cssOpts }}
+{{ if not hugo.IsProduction }}
+  {{ $style = $style | resources.ExecuteAsTemplate (printf "css/main.%v.css" now.UnixMilli) . }}
+{{ end }}
+{{ $assets.Add "css" (slice $style) }}
+
+{{ if hugo.IsProduction }}
+  {{ $cssMain = $assets.Get "css" | resources.Concat "css/main.bundle.css" | resources.Minify | resources.Fingerprint }}
+{{ else }}
+{{ $cssMain = $assets.Get "css" | resources.Concat (printf "css/main.bundle.%v.css" now.UnixMilli) | resources.Fingerprint }}
+{{ end }}
+
+<link type="text/css" rel="stylesheet" href="{{ $cssMain.RelPermalink }}" integrity="{{ $cssMain.Data.Integrity }}" />
+
