@@ -12,8 +12,13 @@ const SELECTORS = {
 
 export default class BookAdd {
     init() {
-        SELECTORS.authorSelect.select2({
-            placeholder: 'Select an Author',
+        SELECTORS.authorSelect.selectize({
+            plugins: ['remove_button'],
+            closeAfterSelect: true,
+            placeholder: 'Select author...',
+            load: () => {
+
+            }
         });
 
         SELECTORS.newAuthor.on('change', function() {

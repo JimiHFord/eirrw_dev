@@ -4,7 +4,7 @@
 
 theme = "congo"
 
-baseURL = "https://eirrw.dev/"
+baseURL = "/"
 defaultContentLanguage = "en"
 
 enableRobotsTXT = true

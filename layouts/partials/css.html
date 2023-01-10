@@ -1,3 +1,22 @@
+{{ if hugo.IsProduction }}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/fh-3.3.1/r-2.4.0/rg-1.3.0/datatables.min.css"/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+  integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+{{ else }}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/fh-3.3.1/r-2.4.0/rg-1.3.0/datatables.css"/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.css"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+{{ end }}
+
 {{/* Asset bundles */}}
 {{ $assets := newScratch }}
 
@@ -13,6 +32,8 @@
   {{ $cssOpts = merge $cssOpts (dict "no-map" true) }}
 {{ end }}
 
+{{/* Workaround to force Hugo to recompile Tailwind JIT styles */}}
+{{/* see: https://www.brycewray.com/posts/2022/03/making-tailwind-jit-work-hugo-version-3-edition/ */}}
 {{ $style := $cssMain | resources.PostCSS $cssOpts }}
 {{ if not hugo.IsProduction }}
   {{ $style = $style | resources.ExecuteAsTemplate (printf "css/main.%v.css" now.UnixMilli) . }}
