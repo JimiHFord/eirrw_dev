@@ -23,5 +23,8 @@
     "bootstrap-dev": "wrangler d1 execute D1_EIRRW --local --file bootstrap.sql",
     "dev-server": "wrangler pages dev --d1 D1_EIRRW --persist --local -- hugo server -Dv",
     "start": "npm run dev-server"
+  },
+  "dependencies": {
+    "@cloudflare/pages-plugin-cloudflare-access": "^1.0.2"
   }
 }

@@ -39,6 +39,7 @@ dateFormat = "2 January 2006"
   #   { kickstarter = "https://www.kickstarter.com/profile/username" },
     { lastfm = "https://last.fm/user/eirrw" },
     { linkedin = "https://linkedin.com/in/erik-wilson" },
+    { letterboxd = "https://letterboxd.com/eirrw/" },
   #   { mastodon = "https://mastodon.instance/@username" },
   #   { medium = "https://medium.com/username" },
   #   { microsoft = "https://www.microsoft.com/" },

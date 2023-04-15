@@ -5,6 +5,7 @@ module.exports = {
         require('postcss-import')({
             path: [rootDir]
         }),
+        require('tailwindcss/nesting'),
         require('tailwindcss')(rootDir + './tailwind.config.js'),
         require('autoprefixer'),
     ],

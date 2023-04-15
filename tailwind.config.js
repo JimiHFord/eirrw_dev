@@ -8,6 +8,7 @@ module.exports = {
     "./content/**/*.{html,md}",
     "./themes/congo/layouts/**/*.html",
     "./themes/congo/content/**/*.{html,md}",
+    "./assets/ts/**/*.ts",
   ],
   plugins: [
     require('@tailwindcss/forms')

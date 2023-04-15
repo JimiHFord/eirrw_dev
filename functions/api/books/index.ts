@@ -33,3 +33,4 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
     return Response.json(data ?? {});
 }
+
