@@ -1,8 +1,9 @@
-import $ from 'jquery';
+import { ready } from './utils';
 import bookList from './bookList';
 import BookAdd from './bookAdd';
 
-$(function () {
+
+ready(function () {
     bookList();
 
     let bookAdd = new BookAdd;

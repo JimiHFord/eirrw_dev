@@ -2,6 +2,18 @@
  * vi: shiftwidth=2
  */
 @import "./themes/congo/assets/css/main.css";
+@import "./node_modules/tom-select/dist/css/tom-select.css";
+
+.hide {
+  @apply hidden;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.show {
+  opacity: 1;
+  transition: opacity 150ms;
+}
 
 div.max-w-prose {
   max-width: 80ch;
@@ -9,6 +21,34 @@ div.max-w-prose {
 
 table.dataTable tr.dtrg-group th {
   @apply dark:bg-neutral-700;
+}
+
+.ts-wrapper {
+  line-height: 1.5rem;
+
+  &.multi.has-items {
+    .ts-control {
+      @apply pt-1.5 pb-0.5;
+    }
+
+    &>div {
+
+    }
+  }
+
+  .ts-control {
+    line-height: inherit !important;
+    color: inherit;
+    @apply border-neutral-600;
+
+    input {
+      color: inherit;
+    }
+
+    & > input {
+      @apply form-input;
+    }
+  }
 }
 
 .selectize-control {

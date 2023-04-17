@@ -31,6 +31,5 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
     const data: D1Result = await ps.all();
 
-    return Response.json(data ?? {});
+    return new Response(JSON.stringify(data));
 }
-

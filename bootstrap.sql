@@ -1,11 +1,11 @@
 -- drop existing tables in consistent order (prevent foreign key failures)
 DROP TABLE IF EXISTS session;
 DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS authorBook;
-DROP TABLE IF EXISTS book;
-DROP TABLE IF EXISTS author;
 DROP TABLE IF EXISTS seriesBook;
 DROP TABLE IF EXISTS series;
+DROP TABLE IF EXISTS authorBook;
+DROP TABLE IF EXISTS author;
+DROP TABLE IF EXISTS book;
 
 
 -- create new tables
@@ -29,7 +29,8 @@ CREATE TABLE book (
     releaseDate TEXT,
     addedDate TEXT DEFAULT CURRENT_DATE,
     readDate TEXT,
-    recommend BOOLEAN NOT NULL DEFAULT FALSE
+    recommend BOOLEAN NOT NULL DEFAULT FALSE,
+    notes TEXT
 );
 
 CREATE TABLE author (
