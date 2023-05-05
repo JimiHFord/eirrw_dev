@@ -39,19 +39,49 @@
     </section>
     <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
       <div class="min-w-0 min-h-0 max-w-full grow">
-        <table id="book-table">
-          <thead>
+        <table id="book-table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" x-data="{ page: 1 }">
+          <thead class="uppercase">
             <tr>
               <th>title</th>
-              <th>last</th>
-              <th>first</th>
-              <th>release</th>
-              <th>added</th>
+              <th>author</th>
               <th>read</th>
-              <th>isRead</th>
-              <th>series</th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <div class="not-prose">
+          <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+            <a href="#" class="relative inline-flex items-center rounded-l-md px-2 py-2 ring-1 ring-inset ring-neutral-200 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-600 focus:z-20 focus:outline-offset-0">
+              <span class="sr-only">Previous</span>
+              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
+            <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 ring-1 ring-inset ring-neutral-200 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-600 focus:z-20 focus:outline-offset-0">
+              <span class="sr-only">Next</span>
+              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </section>
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      <div class="min-w-0 min-h-0 max-w-full grow">
+        <table id="tbr-table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" x-data="{ page: 1 }">
+          <thead class="uppercase">
+            <tr>
+              <th>title</th>
+              <th>author</th>
+              <th>added</th>
+              <th>release</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </section>

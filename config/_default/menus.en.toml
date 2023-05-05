@@ -20,6 +20,11 @@
   pageRef = "posts"
   weight = 10
 
+[[main]]
+  parent = "About"
+  name = "Books"
+  pageRef = "books"
+
 #[[main]]
 #  name = "Categories"
 #  pageRef = "categories"
