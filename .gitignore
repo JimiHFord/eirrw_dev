@@ -12,3 +12,6 @@ hugo_stats.json
 /wrangler.toml
 /node_modules/
 /assets/css/compiled/
+
+# dev files
+/testdata.sql
