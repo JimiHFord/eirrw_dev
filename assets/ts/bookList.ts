@@ -102,6 +102,11 @@ export default class BookList {
                 this.addRow(row, this.page);
             }
         });
+
+        const counts = utils.next(this.table, 'div').querySelector('#read-count').querySelectorAll('span');
+        counts[0].innerText = String(Math.min(start + 1, this.totalRows));
+        counts[1].innerText = String(Math.min(start + this.rowCount, this.totalRows));
+        counts[2].innerText = String(this.totalRows);
     };
 
     private handlePagination() {
@@ -140,7 +145,6 @@ export default class BookList {
         utils.addEventListener(pageNav[3], 'click', (e: Event) => {
             e.preventDefault();
             const pages = Math.floor(this.totalRows / this.rowCount); // get zero-indexed count of pages
-            console.log(pages, this.totalRows, this.rowCount);
             if (this.page != pages) {
                 this.page = pages;
                 this.buildTable()
