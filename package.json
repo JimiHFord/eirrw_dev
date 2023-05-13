@@ -20,12 +20,14 @@
     "prebuild": "npm run install-theme",
     "build": "hugo",
     "bootstrap-dev": "wrangler d1 execute D1_EIRRW --local --file bootstrap.sql",
-    "dev-server": "wrangler pages dev --d1 D1_EIRRW --persist --local -- hugo server -Dv",
+    "dev-server": "wrangler pages dev --d1 D1_EIRRW --persist --local -- hugo server -Dv --bind [::1]",
     "start": "npm run dev-server"
   },
   "dependencies": {
     "@cloudflare/pages-plugin-cloudflare-access": "^1.0.2",
+    "@types/fuzzy-search": "^2.1.2",
     "alpinejs": "^3.12.0",
+    "fuzzy-search": "^3.2.1",
     "jquery": "^3.6.4",
     "tom-select": "^2.2.2"
   }

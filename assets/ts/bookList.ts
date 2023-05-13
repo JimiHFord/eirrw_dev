@@ -1,4 +1,6 @@
-import { $, next } from './utils';
+import FuzzySearch from 'fuzzy-search';
+import {$, $$} from './utils';
+import * as utils from './utils';
 
 interface ResultRow {
   title: string;
@@ -16,7 +18,12 @@ interface ResultRow {
 export default class BookList {
     private readBooks: ResultRow[] = [];
     private tbrBooks: ResultRow[] = [];
-    private table = $('#book-table');
+    private table: HTMLElement = $('#book-table');
+    private page: number = 0;
+    private rowCount: number = 10;
+    private searcher?: FuzzySearch<ResultRow> = null;
+    private searchString: string = '';
+    private totalRows: number = 0;
 
     public init() {
         fetch('/api/books').then(
@@ -29,8 +36,19 @@ export default class BookList {
                 this.tbrBooks = allBooks.filter((book: ResultRow) => !book.read);
 
                 this.readBooks.sort(BookList.sortRead).reverse()
+                this.searcher = new FuzzySearch(this.readBooks, ['title', 'authorLast', 'authorFirst']);
                 this.buildTable();
         });
+
+        utils.addEventListener(this.table, 'click', (event: Event) => {utils.last(event.target as HTMLElement, 'td').classList.toggle('hidden')}, 'tbody tr');
+        utils.addEventListener(utils.next(this.table, 'div').querySelector('#read-search'), 'input', (e: Event) => {
+            this.searchString = e.target.value;
+            this.page = 0;
+            this.buildTable();
+        });
+
+        this.handlePagination()
+
 
         //  $('#book-table').DataTable({
         //    ajax: {
@@ -72,60 +90,75 @@ export default class BookList {
         //  } );
     };
 
-    private buildTable(page: number = 0, rowCount: number = 10) {
-        const start = page * rowCount;
-        const rows = this.readBooks.slice(start, start + rowCount);
+    private buildTable() {
+        const start = this.page * this.rowCount;
+        const rows = this.searcher.search(this.searchString);
+        this.totalRows = rows.length;
+
+        const displayRows = rows.slice(start, start + this.rowCount);
         this.table.querySelector('tbody').innerHTML = '';
-        rows.forEach((row: ResultRow) => {
+        displayRows.forEach((row: ResultRow) => {
             if (row.isRead) {
-                this.addRow(row, page);
+                this.addRow(row, this.page);
+            }
+        });
+    };
+
+    private handlePagination() {
+        const nav = utils.next(this.table, 'div').querySelector('nav');
+        let pageNav = nav.querySelectorAll('a');
+
+        // first
+        utils.addEventListener(pageNav[0], 'click', (e: Event) => {
+            e.preventDefault();
+            if (this.page !== 0) {
+                this.page = 0;
+                this.buildTable()
             }
         });
 
-        this.buildPagination()
-    };
-
-    private buildPagination(page: number = 1, rowCount: number = 10) {
-        const pages = Math.ceil(this.readBooks.length / rowCount);
-        const commonClasses = ['relative', 'inline-flex', 'items-center', 'px-4', 'py-2', 'text-sm', 'font-semibold'];
-        const defaultClasses = ['ring-1', 'ring-inset', 'ring-neutral-200', 'dark:ring-neutral-700', 'hover:bg-neutral-100', 'dark:hover:bg-neutral-600', 'focus:outline-offset-0'];
-        const selectedClasses = ['z-10', 'bg-primary-600', 'text-neutral-50', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-2', 'focus-visible:outline-indigo-600'];
-
-        const nav = next(this.table, 'div').querySelector('nav');
-        const nextArrow = Array.from(nav.querySelectorAll('a')).at(-1);
-
-        if(pages > 1) {
-            let filler = false;
-            for(let i = 1; i <= pages; i++) {
-                if (pages > 7 && (i > 3 && i <= pages - 3)) {
-                    if (!filler) {
-                        const span = document.createElement('span');
-                        span.classList.add(...commonClasses, ...defaultClasses);
-                        span.innerText = '...';
-                        nav.append(span);
-                        filler = !filler;
-                    }
-                    continue;
-                }
-                let a = document.createElement('a');
-                a.setAttribute('href', '#');
-                a.classList.add(...commonClasses, ...(i === page ? selectedClasses : defaultClasses));
-                a.textContent = i.toString();
-
-                nextArrow.before(a);
+        // previous
+        utils.addEventListener(pageNav[1], 'click', (e: Event) => {
+            e.preventDefault();
+            if (this.page !== 0) {
+                this.page--;
+                this.buildTable();
             }
-        }
+        });
+
+        // next
+        utils.addEventListener(pageNav[2], 'click', (e: Event) => {
+            e.preventDefault();
+            const pages = Math.floor(this.totalRows / this.rowCount); // get zero-indexed count of pages
+            if (this.page < pages) {
+                this.page++;
+                this.buildTable();
+            }
+        });
+
+        // last
+        utils.addEventListener(pageNav[3], 'click', (e: Event) => {
+            e.preventDefault();
+            const pages = Math.floor(this.totalRows / this.rowCount); // get zero-indexed count of pages
+            console.log(pages, this.totalRows, this.rowCount);
+            if (this.page != pages) {
+                this.page = pages;
+                this.buildTable()
+            }
+        });
     }
 
     private addRow(rowData: ResultRow, page: number = 1) {
-        // title, authorLast, authorFirst, readDate
+        // title, author, readDate
         const rowHtml =
             `<td>${rowData.title}</td>` +
             `<td>${rowData.authorLast}, ${rowData.authorFirst}</td>` +
-            `<td>${rowData.read}</td>` ;
+            `<td>${rowData.read}</td>` +
+            `<td class="hidden col-span-full">test data</td>`;
 
         const template = document.createElement('tr');
         template.innerHTML = rowHtml.trim();
+        template.classList.add('grid', 'grid-cols-3')
 
         this.table.querySelector('tbody').append(template);
     };

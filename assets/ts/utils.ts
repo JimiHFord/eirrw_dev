@@ -9,7 +9,7 @@ export function ready(fn: any) {
 export const $ = (selector: any): HTMLElement => document.querySelector(selector);
 export const $$ = (selector: any): NodeListOf<HTMLElement> => document.querySelectorAll(selector);
 
-function addEventListener(el: HTMLElement, eventName: string, eventHandler: Function, selector: string) {
+export function addEventListener(el: HTMLElement, eventName: string, eventHandler: Function, selector?: string) {
   if (selector) {
     const wrappedHandler: EventListener = (e) => {
       if (!e.target) return;
@@ -52,4 +52,8 @@ export function next(el: HTMLElement, selector: string) {
   } else {
     return el.nextElementSibling;
   }
+}
+
+export function last(el: HTMLElement, selector: string) {
+    return Array.from(el.querySelectorAll(selector)).at(-1) ?? null;
 }
