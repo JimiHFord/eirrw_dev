@@ -57,3 +57,25 @@ export function next(el: HTMLElement, selector: string) {
 export function last(el: HTMLElement, selector: string) {
     return Array.from(el.querySelectorAll(selector)).at(-1) ?? null;
 }
+
+// from: https://gist.github.com/Rob--W/ec23b9d6db9e56b7e4563f1544e0d546
+// A tag for template literals that escapes any value as HTML.
+export function safeHTML(strings: TemplateStringsArray, ...values: string[]) {
+   let results = [];
+   for (let i = 0; i < strings.length; ++i) {
+       results.push(strings[i]);
+       if (i < values.length) { // values[strings.length-1] can be undefined
+           results.push(escapeHTML(values[i]));
+       }
+   }
+   return results.join('');
+}
+
+function escapeHTML(str: string) {
+    // Note: string cast using String; may throw if `str` is non-serializable, e.g. a Symbol.
+    // Most often this is not the case though.
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
