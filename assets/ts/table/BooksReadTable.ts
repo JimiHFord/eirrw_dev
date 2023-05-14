@@ -6,7 +6,7 @@ export class BooksReadTable extends AbstractTable<ResultRow> {
     protected fetchPath: string = '/api/books';
     protected searchFields: string[] = ['title', 'authorLast', 'authorFirst'];
 
-    public init(): void {
+    public init(data: ResultRow[]): void {
         this.state.sort = {
             asc: false,
             field: 2,
@@ -22,7 +22,7 @@ export class BooksReadTable extends AbstractTable<ResultRow> {
             utils.last(event.target as HTMLElement, 'td').classList.toggle('hidden')
         }, 'tbody tr');
 
-        super.init();
+        super.init(data);
     }
 
     protected processData(data: ResultRow[]): ResultRow[] {

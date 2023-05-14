@@ -1,6 +1,7 @@
 import { $ } from './utils';
 import { BooksReadTable } from './table/BooksReadTable';
 import { BooksTbrTable } from './table/BooksTbrTable';
+import { ResultRow } from './types';
 
 export default class BookList {
     private readTable: BooksReadTable;
@@ -8,9 +9,17 @@ export default class BookList {
 
     public init() {
         this.readTable = new BooksReadTable($('#book-table'));
-        this.readTable.init();
-
         this.tbrTable = new BooksTbrTable($('#tbr-table'));
-        this.tbrTable.init();
+
+        fetch('/api/books').then(
+            response => response.json()
+        ).then(
+            (data) => {
+                if (!data.results.length) { return };
+                const results = data.results as ResultRow[];
+
+                this.readTable.init(results);
+                this.tbrTable.init(results);
+        });
     };
 };

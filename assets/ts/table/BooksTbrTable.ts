@@ -6,7 +6,7 @@ export class BooksTbrTable extends AbstractTable<ResultRow> {
     protected fetchPath: string = '/api/books';
     protected searchFields: string[] = ['title', 'authorLast', 'authorFirst'];
 
-    public init(): void {
+    public init(data: ResultRow[]): void {
         this.state.sort = {
             asc: false,
             field: 2,
@@ -22,7 +22,7 @@ export class BooksTbrTable extends AbstractTable<ResultRow> {
             utils.last(event.target as HTMLElement, 'td').classList.toggle('hidden')
         }, 'tbody tr');
 
-        super.init();
+        super.init(data);
     }
 
     protected processData(data: ResultRow[]): ResultRow[] {
@@ -54,15 +54,15 @@ export class BooksTbrTable extends AbstractTable<ResultRow> {
         // title, author, added, release
         const rowHtml =
             utils.safeHTML`
-            <td class="sm:col-span-3 lg:col-span-4">${rowData.title}</td>
-            <td class="sm:col-span-3 lg:col-span-4">${rowData.authorLast}, ${rowData.authorFirst}</td>
-            <td class="sm:col-span-2 lg:col-span-1">${rowData.added}</td>
-            <td class="sm:col-span-2 lg:col-span-1 max-sm:hidden">${rowData.release}</td>
+            <td class="sm:col-span-2 lg:col-span-4">${rowData.title}</td>
+            <td class="sm:col-span-2 lg:col-span-3">${rowData.authorLast}, ${rowData.authorFirst}</td>
+            <td class="sm:col-span-1 lg:col-span-1">${rowData.added}</td>
+            <td class="sm:col-span-1 lg:col-span-1 max-sm:hidden">${rowData.release}</td>
             <td class="hidden col-span-full">test data</td>`;
 
         const template = document.createElement('tr');
         template.innerHTML = rowHtml.trim();
-        template.classList.add('grid', 'grid-cols-3', 'sm:grid-cols-10')
+        template.classList.add('grid', 'grid-cols-3', 'sm:grid-cols-6', 'lg:grid-cols-9')
         
         return template;
     };

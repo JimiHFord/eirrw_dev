@@ -22,21 +22,29 @@ export abstract class AbstractTable<T extends Object> {
         this.table = table;
     }
 
-    public init() {
-        fetch(this.fetchPath).then(
-            response => response.json()
-        ).then(
-            (data) => {
-                if (!data.results.length) { return };
-                const results = data.results as T[];
+    public init(data?: T[]) {
+        const initialize = (data: T[]) => {
+            this.data = this.processData(data);
 
-                this.data = this.processData(results);
+            this.sort()
+            this.updateHeaders()
+            this.searcher = new FuzzySearch(this.data, this.searchFields);
+            this.buildTable();
+        }
 
-                this.sort()
-                this.updateHeaders()
-                this.searcher = new FuzzySearch(this.data, this.searchFields);
-                this.buildTable();
-        });
+        if (data === undefined) {
+            fetch(this.fetchPath).then(
+                response => response.json()
+            ).then(
+                (data) => {
+                    if (!data.results.length) { return };
+                    const results = data.results as T[];
+
+                    initialize(results);
+            });
+        } else {
+            initialize(data);
+        }
 
         utils.addEventListener(utils.next(this.table, 'div').querySelector('.search'), 'input', (e: Event) => {
             this.state.searchString = (e.target as HTMLInputElement).value;
