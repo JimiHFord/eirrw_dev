@@ -1,18 +1,17 @@
 import FuzzySearch from 'fuzzy-search';
 import {$, $$} from './utils';
 import * as utils from './utils';
+import { ResultRow } from './types';
 
-interface ResultRow {
-  title: string;
-  authorLast: string;
-  authorFirst: string;
-  release: string;
-  added?: string;
-  read?: string;
-  isRead: boolean;
-  series?: string;
-  recommendBook: boolean;
-  recommendSeries: boolean;
+enum SortField {
+    TITLE,
+    AUTHOR,
+    READDATE,
+}
+
+interface SortStatus {
+    asc: boolean;
+    field: SortField;
 }
 
 export default class BookList {
@@ -24,6 +23,10 @@ export default class BookList {
     private searcher?: FuzzySearch<ResultRow> = null;
     private searchString: string = '';
     private totalRows: number = 0;
+    private sortStatus: SortStatus = {
+        asc: false,
+        field: SortField.READDATE
+    }
 
     public init() {
         fetch('/api/books').then(
@@ -35,59 +38,20 @@ export default class BookList {
                 this.readBooks = allBooks.filter((book: ResultRow) => book.read);
                 this.tbrBooks = allBooks.filter((book: ResultRow) => !book.read);
 
-                this.readBooks.sort(BookList.sortRead).reverse()
+                this.readBooks.sort(BookList.sortRead)
                 this.searcher = new FuzzySearch(this.readBooks, ['title', 'authorLast', 'authorFirst']);
                 this.buildTable();
         });
 
         utils.addEventListener(this.table, 'click', (event: Event) => {utils.last(event.target as HTMLElement, 'td').classList.toggle('hidden')}, 'tbody tr');
         utils.addEventListener(utils.next(this.table, 'div').querySelector('#read-search'), 'input', (e: Event) => {
-            this.searchString = e.target.value;
+            this.searchString = (e.target as HTMLInputElement).value;
             this.page = 0;
             this.buildTable();
         });
 
-        this.handlePagination()
-
-
-        //  $('#book-table').DataTable({
-        //    ajax: {
-        //      url: "/api/books",
-        //      dataSrc: 'results'
-        //    },
-        //    columns: [
-        //      {
-        //        data: 'title',
-        //        render: (data, _, row) => `<span class="${row.recommendBook ? 'font-semibold' : ''}">${data}</span>`
-        //      },
-        //      { data: 'authorLast', orderData: [ 1, 2 ] },
-        //      { data: 'authorFirst', orderData: [ 2, 1 ] },
-        //      { data: 'release' },
-        //      { data: 'added' },
-        //      { data: 'read', orderData: [ 5, 4, 1 ] },
-        //      { data: 'isRead', visible: false },
-        //      { 
-        //        data: 'series',
-        //        render: (data, _, row) => 
-        //        data ? `<span class="${row.recommendSeries ? 'font-semibold' : ''}">${data}</span> ` +
-        //          `(${row.seriesEntry})`
-        //            : ''
-        //      },
-        //    ],
-        //    rowGroup: {
-        //      dataSrc: 'isRead',
-        //      startRender: (rows, group): string => group == '1' ? `Read (${rows.count()})`  : `TBR (${rows.count()})`
-        //    },
-        //    paging: false,
-        //    searching: false,
-        //    info: false,
-        //    order: [[6, 'desc'], [5, 'desc']],
-        //    orderFixed: [6, 'desc'],
-        //    scrollX: false,
-        //    fixedHeader: true,
-        //    responsive: true,
-        //    autoWidth: false
-        //  } );
+        this.handlePagination();
+        this.handleSort();
     };
 
     private buildTable() {
@@ -152,20 +116,76 @@ export default class BookList {
         });
     }
 
+    private handleSort() {
+        const headers: NodeListOf<HTMLElement> = this.table.querySelectorAll('th.sortable');
+        const sort = (field: SortField) => {
+            this.sort(field);
+            this.buildTable();
+            this.updateHeaders();
+        };
+
+        utils.addEventListener(headers[0], 'click', () => { sort(SortField.TITLE) });
+        utils.addEventListener(headers[1], 'click', () => { sort(SortField.AUTHOR) });
+        utils.addEventListener(headers[2], 'click', () => { sort(SortField.READDATE) });
+    }
+
     private addRow(rowData: ResultRow, page: number = 1) {
         // title, author, readDate
         const rowHtml =
-            `<td>${rowData.title}</td>` +
-            `<td>${rowData.authorLast}, ${rowData.authorFirst}</td>` +
-            `<td>${rowData.read}</td>` +
+            `<td class="sm:col-span-5">${rowData.title}</td>` +
+            `<td class="sm:col-span-4">${rowData.authorLast}, ${rowData.authorFirst}</td>` +
+            `<td class="sm:col-span-2">${rowData.read}</td>` +
             `<td class="hidden col-span-full">test data</td>`;
 
         const template = document.createElement('tr');
         template.innerHTML = rowHtml.trim();
-        template.classList.add('grid', 'grid-cols-3')
+        template.classList.add('grid', 'grid-cols-3', 'sm:grid-cols-12')
 
         this.table.querySelector('tbody').append(template);
     };
+
+    private sort(field: SortField) {
+        if (this.sortStatus.field === field) {
+            this.sortStatus.asc = !this.sortStatus.asc;
+        } else {
+            this.sortStatus.asc = false
+            this.sortStatus.field = field;
+        }
+
+        let method = null;
+        switch (this.sortStatus.field) {
+            case SortField.TITLE:
+                method = BookList.sortTitle;
+                break;
+            case SortField.AUTHOR:
+                method = BookList.sortName;
+                break
+            case SortField.READDATE:
+                method = BookList.sortRead;
+        }
+
+        this.readBooks.sort(method);
+        if (this.sortStatus.asc) { this.readBooks.reverse() }
+    }
+
+    private updateHeaders() {
+        const arrow_up = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" /></svg>`;
+        const arrow_down = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"> <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" /> </svg>`;
+        const arrow_both = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"> <path fill-rule="evenodd" d="M2.24 6.8a.75.75 0 001.06-.04l1.95-2.1v8.59a.75.75 0 001.5 0V4.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L2.2 5.74a.75.75 0 00.04 1.06zm8 6.4a.75.75 0 00-.04 1.06l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75a.75.75 0 00-1.5 0v8.59l-1.95-2.1a.75.75 0 00-1.06-.04z" clip-rule="evenodd" /> </svg>`;
+
+        const headers: NodeListOf<HTMLElement> = this.table.querySelectorAll('th.sortable');
+        const update = (field: SortField) => {
+            if (this.sortStatus.field === field) {
+                return this.sortStatus.asc ? arrow_up : arrow_down;
+            } else {
+                return arrow_both;
+            }
+        }
+
+        headers[0].querySelector('span').innerHTML = update(SortField.TITLE);
+        headers[1].querySelector('span').innerHTML = update(SortField.AUTHOR);
+        headers[2].querySelector('span').innerHTML = update(SortField.READDATE);
+    }
 
     private static sortName(a: ResultRow, b: ResultRow) {
         if (a.authorLast > b.authorLast) { return 1 }
@@ -185,6 +205,6 @@ export default class BookList {
         const aRead = new Date(a.read);
         const bRead = new Date(b.read);
 
-        return (aRead > bRead) ? 1 : (aRead < bRead) ? -1 : 0;
+        return (aRead < bRead) ? 1 : (aRead > bRead) ? -1 : 0;
     }
 };

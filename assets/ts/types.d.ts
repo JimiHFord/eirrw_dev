@@ -19,3 +19,16 @@ export interface NewBookData {
     seriesEntry?: number;
     recommend: boolean
 }
+
+export interface ResultRow {
+  title: string;
+  authorLast: string;
+  authorFirst: string;
+  release: string;
+  added?: string;
+  read?: string;
+  isRead: boolean;
+  series?: string;
+  recommendBook: boolean;
+  recommendSeries: boolean;
+}
