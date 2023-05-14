@@ -32,3 +32,25 @@ export interface ResultRow {
   recommendBook: boolean;
   recommendSeries: boolean;
 }
+
+export type SortMethod<T> = (a: T, b: T) => number;
+
+export interface SortStatus<T> {
+    asc: boolean;
+    field: number;
+    methods: Array<SortMethod<T>>;
+}
+
+export interface Filter {
+    field: string;
+    value: any;
+}
+
+export interface TableState<T> {
+    page: number;
+    pageRows: number;
+    totalRows: number;
+    searchString: string;
+    sort: SortStatus<T>;
+    filter: Array<Filter|Array<Filter>>;
+}

@@ -14,5 +14,5 @@ showPagination = false
 A list of books I've read or want to read. Mostly for my own sake, so I can rememeber if I read it (or if I still need
 to). Also posted for cred.
 
-My favourites and/or recommended reads will be bolded. Same goes for the series.
+My favourites and/or recommended reads are marked, as are the series.
 
