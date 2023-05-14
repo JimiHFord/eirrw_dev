@@ -38,7 +38,8 @@ export default class BookList {
                 this.readBooks = allBooks.filter((book: ResultRow) => book.read);
                 this.tbrBooks = allBooks.filter((book: ResultRow) => !book.read);
 
-                this.readBooks.sort(BookList.sortRead)
+                this.sort()
+                this.updateHeaders()
                 this.searcher = new FuzzySearch(this.readBooks, ['title', 'authorLast', 'authorFirst']);
                 this.buildTable();
         });
@@ -119,7 +120,14 @@ export default class BookList {
     private handleSort() {
         const headers: NodeListOf<HTMLElement> = this.table.querySelectorAll('th.sortable');
         const sort = (field: SortField) => {
-            this.sort(field);
+            if (this.sortStatus.field === field) {
+                this.sortStatus.asc = !this.sortStatus.asc;
+            } else {
+                this.sortStatus.asc = false
+                this.sortStatus.field = field;
+            }
+
+            this.sort();
             this.buildTable();
             this.updateHeaders();
         };
@@ -144,14 +152,7 @@ export default class BookList {
         this.table.querySelector('tbody').append(template);
     };
 
-    private sort(field: SortField) {
-        if (this.sortStatus.field === field) {
-            this.sortStatus.asc = !this.sortStatus.asc;
-        } else {
-            this.sortStatus.asc = false
-            this.sortStatus.field = field;
-        }
-
+    private sort() {
         let method = null;
         switch (this.sortStatus.field) {
             case SortField.TITLE:
@@ -193,12 +194,12 @@ export default class BookList {
         else {
             if (a.authorFirst > b.authorFirst) { return 1 }
             else if (a.authorFirst < b.authorFirst) { return -1 }
-            else { return 0 }
+            else { return BookList.sortRead(a, b) }
         }
     };
 
     private static sortTitle(a: ResultRow, b: ResultRow) {
-        return (a.title > b.title) ? 1 : (a.title < b.title) ? -1 : 0;
+        return (a.title > b.title) ? 1 : (a.title < b.title) ? -1 : BookList.sortRead(a, b);
     };
 
     private static sortRead(a: ResultRow, b: ResultRow) {
