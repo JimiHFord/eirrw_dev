@@ -14,6 +14,7 @@ export class BooksTbrTable extends AbstractTable<ResultRow> {
                 BooksTbrTable.sortTitle,
                 BooksTbrTable.sortName,
                 BooksTbrTable.sortAdded,
+                BooksTbrTable.sortRelease,
             ],
         }
 
@@ -47,7 +48,14 @@ export class BooksTbrTable extends AbstractTable<ResultRow> {
         const aAdded = new Date(a.added);
         const bAdded = new Date(b.added);
 
-        return (aAdded < bAdded) ? 1 : (aAdded > bAdded) ? -1 : 0;
+        return (aAdded < bAdded) ? 1 : (aAdded > bAdded) ? -1 : BooksTbrTable.sortRelease(a, b);
+    }
+
+    private static sortRelease(a: ResultRow, b: ResultRow): number {
+        const aRelease = new Date(a.release);
+        const bRelease = new Date(b.release);
+
+        return (aRelease < bRelease) ? 1 : (aRelease > bRelease) ? -1 : 0;
     }
 
     protected addRow(rowData: ResultRow): HTMLElement {
