@@ -1,5 +1,3 @@
-import Alpine from 'alpinejs'
-
 import { ready } from './utils';
 import BookList from './bookList';
 import BookAdd from './bookAdd';
@@ -15,6 +13,4 @@ ready(function () {
             bookAdd.init();
             break;
     }
-
-    Alpine.start();
 });
