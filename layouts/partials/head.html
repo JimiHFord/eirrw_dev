@@ -79,10 +79,10 @@
   {{ partial "vendor.html" . }}
 
   {{/* Analytics */}}
-  {{ partialCached "analytics.html" .Site }}
+  {{ partialCached "analytics.html" . }}
 
   {{/* Extend head - eg. for custom analytics scripts, etc. */}}
   {{ if templates.Exists "partials/extend-head.html" }}
-    {{ partial "extend-head.html" .Site }}
+    {{ partial "extend-head.html" . }}
   {{ end }}
 </head>

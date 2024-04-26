@@ -20,8 +20,8 @@
     "prebuild": "npm run install-theme",
     "build": "hugo",
     "bootstrap-dev": "wrangler d1 execute D1_EIRRW --local --file bootstrap.sql",
-    "dev-server": "wrangler pages dev --d1 D1_EIRRW --local -- hugo server -Dv --bind [::1]",
-    "dev-server-prod": "wrangler pages dev --d1 D1_EIRRW --local -- hugo server -Dv --bind [::1] --environment production",
+    "dev-server": "wrangler pages dev --d1 D1_EIRRW --local -- hugo server -D --logLevel info --bind [::1]",
+    "dev-server-prod": "wrangler pages dev --d1 D1_EIRRW --local -- hugo server -D --logLevel info --bind [::1] --environment production",
     "start": "npm run dev-server"
   },
   "dependencies": {
