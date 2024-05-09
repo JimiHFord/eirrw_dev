@@ -18,7 +18,7 @@ the side more recently, exploring other popular languages like Go, Lua, and Rust
 
 I'm primarily a Linux user, with it acting as my main OS on all my machines. [Arch Linux](https://archlinux.org/) and
 [Fedora](https://getfedora.org/) are my go-to distros, though I set up the same [i3](https://i3wm.org/) and
-[zsh](https://www.zsh.org/) environment on everything for consistency. [Neovim](https://neovim.io/) is my editor of
+[fish](https://fishshell.com/) environment on everything for consistency. [Neovim](https://neovim.io/) is my editor of
 choice, unless I need a fully-featured IDE, in which case I'll generally reach for a 
 [JetBrains](https://www.jetbrains.com/) tool.
 
